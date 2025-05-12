@@ -1,0 +1,1061 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Osigurava da body zauzima celu visinu prozora */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigacija */
+nav {
+    background: linear-gradient(90deg, #ff6200, #ff8c00);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 150px; /* Fiksna širina loga */
+    height: 40px; /* Fiksna visina loga */
+    object-fit: contain; /* Osigurava da se slika ne deformiše */
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 1.1rem;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #00ff88;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav a:hover {
+    color: #00ff88;
+}
+
+/* Hero sekcija sa paralaks efektom */
+.hero {
+    position: relative;
+    height: 600px;
+    background: url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+}
+
+.hero-content {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #00ff88, #00f0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    color: #e0e0e0;
+}
+
+.hero button {
+    background: linear-gradient(45deg, #ff6200, #ff8c00);
+    color: #ffffff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 98, 0, 0.4);
+}
+
+.hero button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 98, 0, 0.6);
+}
+
+/* Kartice recepata (horizontalni flexbox sa skrolovanjem) */
+.recipe-grid {
+    display: flex;
+    flex-wrap: nowrap; /* Sprečava prelazak u novi red */
+    gap: 30px;
+    margin: 60px 0;
+    overflow-x: auto; /* Omogućava horizontalno skrolovanje */
+    padding-bottom: 20px; /* Dodaje prostor za skrol bar */
+    scrollbar-width: thin; /* Prilagođava izgled skrol bara (Firefox) */
+    scrollbar-color: #ff6200 #2c2c2c; /* Boja skrol bara (Firefox) */
+}
+
+/* Prilagođavanje skrol bara za Webkit pregledače (Chrome, Safari) */
+.recipe-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.recipe-grid::-webkit-scrollbar-track {
+    background: #2c2c2c;
+    border-radius: 10px;
+}
+
+.recipe-grid::-webkit-scrollbar-thumb {
+    background: #ff6200;
+    border-radius: 10px;
+}
+
+.recipe-grid::-webkit-scrollbar-thumb:hover {
+    background: #ff8c00;
+}
+
+.recipe-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+    flex: 0 0 300px; /* Fiksna širina kartice */
+}
+
+.recipe-card:nth-child(1) { animation-delay: 0.1s; }
+.recipe-card:nth-child(2) { animation-delay: 0.2s; }
+.recipe-card:nth-child(3) { animation-delay: 0.3s; }
+
+.recipe-card:hover {
+    transform: translateY(-10px) rotate(1deg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+.favorite-btn svg {
+    transition: transform 0.3s ease;
+}
+.edit-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff6200;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.edit-btn:hover {
+    background-color: #e55a00;
+}
+
+.favorite-btn:hover svg {
+    transform: scale(1.2);
+}
+
+.recipe-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.recipe-card-content {
+    padding: 20px;
+}
+
+.recipe-card h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #00f0ff;
+}
+
+.recipe-card p {
+    font-size: 1rem;
+    color: #d0d0d0;
+    margin-bottom: 15px;
+}
+
+.recipe-card .rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.recipe-card .rating svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+}
+
+.recipe-card .rating svg:hover {
+    transform: scale(1.3);
+}
+
+.recipe-card a {
+    color: #00ff88;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.recipe-card a:hover {
+    color: #ff6200;
+}
+.success-message {
+    text-align: center;
+    padding: 20px;
+    background-color: #e6ffe6;
+    border: 1px solid #b3ffb3;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.success-message h2 {
+    color: #28a745;
+}
+
+.success-message p {
+    margin: 10px 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #ff8c00;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #e67e00;
+}
+.recipe-actions {
+    margin-top: 20px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+/* Modal za pretragu */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.modal.show {
+    display: flex;
+}
+.ingredient-input-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.add-ingredient-btn {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-ingredient-btn:hover {
+    background-color: #45a049;
+}
+
+.selected-ingredient {
+    display: inline-flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+}
+
+.remove-ingredient {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #ff4444;
+    font-weight: bold;
+}
+
+.remove-ingredient:hover {
+    color: #cc0000;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 500px;
+    width: 90%;
+    position: fixed;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.modal-content h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #00f0ff;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.modal-content input::placeholder {
+    color: #b0b0b0;
+}
+
+.modal-content button {
+    background: linear-gradient(45deg, #00ff88, #00f0ff);
+    color: #1a1a1a;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-content button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+}
+
+.modal-content .close-btn {
+    background: none;
+    color: #ff6200;
+}
+
+/* Stilovi za forme (Prijava, Registracija, Dodaj/Uredi recept) */
+section.container {
+    padding: 60px 20px;
+    flex: 1; /* Omogućava da sadržaj popuni prostor između headera i footera */
+}
+
+form {
+    background: rgba(255, 251, 251, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.5s ease-in-out;
+}
+
+form h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    background: linear-gradient(90deg, #00ff88, #00f0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+form label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #e0e0e0;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #00ff88;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+form button {
+    background: linear-gradient(45deg, #ff6200, #ff8c00);
+    color: #ffffff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
+    margin: 20px auto 0;
+}
+
+form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 98, 0, 0.4);
+}
+
+form .error {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Stilovi za sastojke (Dodaj/Uredi recept) */
+form .flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+form .flex input {
+    flex: 1;
+}
+
+form .flex button {
+    background: none;
+    color: #ff4444;
+    margin: 0;
+    padding: 5px;
+}
+
+form .text-orange-500 {
+    color: #ff6200;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+form .text-orange-500:hover {
+    color: #00ff88;
+}
+
+/* Stilovi za stranicu recepta (Pogledaj recept) */
+.recipe-details {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 40px 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+.recipe-details {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    margin-top: 60px;
+    color: #e0e0e0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.recipe-details h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #00ff88, #00f0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.recipe-details p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.recipe-details ul {
+    list-style: disc inside;
+    margin-bottom: 30px;
+}
+
+.recipe-details ul li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+.fade-in {
+    animation: fadeIn 0.5s ease-in forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+
+.recipe-details h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #00f0ff;
+}
+
+.recipe-details img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    transition: transform 0.5s ease;
+}
+
+.recipe-details img:hover {
+    transform: scale(1.02);
+}
+
+.recipe-details .rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.recipe-details .rating svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.recipe-details p {
+    font-size: 1.1rem;
+    color: #d0d0d0;
+    margin-bottom: 20px;
+}
+
+.recipe-details ul,
+.recipe-details ol {
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.recipe-details ul li,
+.recipe-details ol li {
+    margin-bottom: 10px;
+    color: #e0e0e0;
+}
+
+.recipe-details ul li span {
+    color: #00ff88;
+}
+
+/* Stilovi za ocenjivanje */
+/* Stilovi za ocenjivanje */
+.rating-form {
+    margin: 15px 0; /* Smanjene margine za manji vertikalni prostor */
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Smanjen razmak između elemenata */
+}
+
+.rate-recipe {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Smanjen razmak između teksta i zvezdica */
+}
+
+.rate-label {
+    font-size: 0.9rem; /* Manji font za etiketu */
+    color: #e0e0e0;
+    white-space: nowrap; /* Sprečava prelazak teksta u novi red */
+}
+
+.rating-star {
+    width: 16px; /* Manje zvezdice za kompaktniji izgled */
+    height: 16px;
+    cursor: pointer;
+    transition: fill 0.3s ease, transform 0.3s ease;
+}
+
+.rating-star:hover,
+.rating-star:hover ~ .rating-star {
+    fill: #ffd700; /* Zlatna boja pri hover-u */
+    transform: scale(1.2); /* Blago uvećanje pri hover-u */
+}
+
+.user-rating {
+    font-size: 0.9rem; /* Manji font za prikaz korisničke ocjene */
+    color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Smanjen razmak između teksta i zvezdica */
+    white-space: nowrap; /* Sprečava prelazak teksta u novi red */
+}
+
+.user-rating .rating-star {
+    width: 14px; /* Još manje zvezdice za prikaz korisničke ocjene */
+    height: 14px;
+}
+.share-buttons {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.share-buttons h4 {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+}
+
+.share-buttons a {
+    transition: transform 0.3s ease;
+}
+
+.share-buttons a:hover {
+    transform: scale(1.2);
+}
+.profile-info {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.profile-info strong {
+    color: #00f0ff;
+}
+.logout-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff6200, #ff8c00);
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logout-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 98, 0, 0.4);
+}
+
+.profile-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.delete-account-btn {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff6200, #ff8c00);
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.delete-account-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
+}
+
+.delete-account-form {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.delete-account-form label {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.delete-account-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.delete-btn {
+    background: linear-gradient(45deg, #ff4444, #ff6666);
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.delete-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
+}
+.chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.chat-header {
+    background: linear-gradient(45deg, #ff6200, #ff8c00);
+    color: #ffffff;
+    padding: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: #e0e0e0;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.chat-username {
+    font-weight: bold;
+    color: #00ff88;
+}
+
+.chat-time {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.chat-form {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chat-form input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px 0 0 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    outline: none;
+}
+
+.chat-form button {
+    padding: 8px 16px;
+    background: linear-gradient(45deg, #00ff88, #00f0ff);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.chat-form button:hover {
+    transform: translateY(-2px);
+}
+
+.hidden {
+    display: none;
+}
+.error-message {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffe6e6;
+    border: 1px solid #ffb3b3;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.error-message p {
+    margin: 10px 0;
+    color: #dc3545;
+}
+
+
+/* Stilovi za komentare */
+.comments {
+    margin-top: 40px;
+}
+
+.comments h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #00f0ff;
+}
+
+.comment-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.comment-card .author {
+    font-weight: 600;
+    color: #ff6200;
+    margin-bottom: 10px;
+}
+
+.comment-card .date {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-bottom: 10px;
+}
+
+.comment-card p {
+    color: #e0e0e0;
+}
+
+/* Footer stilovi */
+footer {
+    background: linear-gradient(90deg, #ff6200, #ff8c00);
+    padding: 20px 0; /* Povećano padding za bolji izgled */
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+    margin-top: auto; /* Gura footer na dno stranice */
+    width: 100%; /* Osigurava da footer zauzima celu širinu */
+    display: flex;
+    justify-content: center; /* Centrira sadržaj horizontalno */
+    align-items: center; /* Centrira sadržaj vertikalno */
+}
+
+footer .container {
+    display: flex;
+    justify-content: center; /* Centrira tekst unutar kontejnera */
+    align-items: center;
+}
+
+footer p {
+    font-size: 1rem;
+    color: #ffffff;
+    margin: 0; /* Uklanja podrazumevani margine */
+}
+
+footer a {
+    color: #00ff88;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #00f0ff;
+}
+
+/* Animacije */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsivnost */
+@media (max-width: 768px) {
+    .hero {
+        height: 400px;
+        background-attachment: scroll;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .recipe-card img {
+        height: 180px;
+    }
+
+    .logo {
+        width: 120px; /* Smanjujemo širinu loga na mobilnim uređajima */
+        height: 32px; /* Smanjujemo visinu loga na mobilnim uređajima */
+    }
+
+    nav a {
+        font-size: 0.9rem;
+        margin-left: 10px;
+    }
+
+    .recipe-details h2 {
+        font-size: 2rem;
+    }
+
+    .recipe-details img {
+        max-height: 300px;
+    }
+
+    form {
+        padding: 20px;
+    }
+
+    /* Prilagođavanje horizontalnog prikaza na mobilnim uređajima */
+    .recipe-grid {
+        gap: 15px;
+    }
+
+    .recipe-card {
+        flex: 0 0 250px; /* Smanjena širina kartice na mobilnim uređajima */
+    }
+
+    footer p {
+        font-size: 0.9rem;
+    }
+}
